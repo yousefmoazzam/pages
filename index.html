@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Welcome to sphinxnotes-pages’s documentation! &#8212; sphinxnotes-pages 1.0a documentation</title>
+    <title>Sphinx to GitHub Pages &#8212; sphinxnotes-pages 1.0a documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -34,59 +34,104 @@
 
     <div class="document">
       <div class="documentwrapper">
-        <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="welcome-to-sphinxnotes-pages-s-documentation">
-<h1>Welcome to sphinxnotes-pages’s documentation!<a class="headerlink" href="#welcome-to-sphinxnotes-pages-s-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-</div>
-</div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="sphinx-to-github-pages">
+<h1>Sphinx to GitHub Pages<a class="headerlink" href="#sphinx-to-github-pages" title="Permalink to this headline">¶</a></h1>
+<a class="reference external image-reference" href="https://github.com/sphinx-notes/pages"><img alt="https://img.shields.io/github/stars/sphinx-notes/pages.svg?style=social&amp;label=Star&amp;maxAge=2592000" src="https://img.shields.io/github/stars/sphinx-notes/pages.svg?style=social&amp;label=Star&amp;maxAge=2592000" /></a>
+<p>The project is originated from <a class="reference external" href="https://github.com/seanzhengw/sphinx-pages.">seanzhengw/sphinx-pages</a>,
+it builds Sphinx documentation and push to branch specified branch.</p>
+<div class="contents local topic" id="contents">
 <ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
-<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+<li><a class="reference internal" href="#different-from-the-predecessor" id="id1">Different from The Predecessor</a></li>
+<li><a class="reference internal" href="#usage" id="id2">Usage</a><ul>
+<li><a class="reference internal" href="#example-workflow-file" id="id3">Example Workflow file</a></li>
+<li><a class="reference internal" href="#inputs" id="id4">Inputs</a></li>
 </ul>
+</li>
+</ul>
+</div>
+<div class="section" id="different-from-the-predecessor">
+<h2>Different from The Predecessor<a class="headerlink" href="#different-from-the-predecessor" title="Permalink to this headline">¶</a></h2>
+<p>This proejct supports customize source directory of Sphinx documentation.
+I file a <a class="reference external" href="https://github.com/seanzhengw/sphinx-pages/pull/1">pull request</a> to upstream but it is not get merged yet.</p>
+<p>This proejct supports install python packages from <code class="docutils literal"><span class="pre">requirements.txt</span></code>
+under source directory of Sphinx documentation. It is useful for such documentation
+that using non builtin Sphinx extension. This feature is also contained in the
+<a class="reference external" href="https://github.com/seanzhengw/sphinx-pages/pull/1">pull request</a> I mentioned.</p>
+<p>Finally, the most important one, The Sphinx program in <a class="reference external" href="https://github.com/seanzhengw/sphinx-pages.">seanzhengw/sphinx-pages</a>
+comes from docker image that provided by Sphinx Team. It is out-of-box,
+but not flexible enough.</p>
+<p>For example, The user of <a class="reference external" href="https://github.com/sphinx-notes/lilypond">sphinx-notes/lilypond</a> should have LilyPond installed
+when runing <code class="docutils literal"><span class="pre">sphinx-builder</span></code>, there is no a esay way to ask <a class="reference external" href="https://github.com/seanzhengw/sphinx-pages.">seanzhengw/sphinx-pages</a>
+install a LilyPond in docker container. The Sphinx program in this proejct comes
+from the image the specified by github workflow, so you can simplily install
+LilyPond before using this.</p>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="example-workflow-file">
+<h3>Example Workflow file<a class="headerlink" href="#example-workflow-file" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Pages</span>
+<span class="l l-Scalar l-Scalar-Plain">on</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="nv">push</span><span class="p p-Indicator">]</span>
+<span class="l l-Scalar l-Scalar-Plain">jobs</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">build</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">runs-on</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+    <span class="l l-Scalar l-Scalar-Plain">steps</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Checkout</span>
+      <span class="l l-Scalar l-Scalar-Plain">uses</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/checkout@master</span>
+      <span class="l l-Scalar l-Scalar-Plain">with</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">fetch-depth</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span> <span class="c1"># otherwise, you will failed to push refs to dest repo</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Build and Commit</span>
+      <span class="l l-Scalar l-Scalar-Plain">uses</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">sphinx-notes/pages@master</span>
+      <span class="l l-Scalar l-Scalar-Plain">with</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">documentation_path</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">doc</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Push changes</span>
+      <span class="l l-Scalar l-Scalar-Plain">uses</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">ad-m/github-push-action@master</span>
+      <span class="l l-Scalar l-Scalar-Plain">with</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">github_token</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ secrets.GITHUB_TOKEN }}</span>
+        <span class="l l-Scalar l-Scalar-Plain">branch</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">gh-pages</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="inputs">
+<h3>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="c1"># https://help.github.com/en/articles/metadata-syntax-for-github-actions</span>
+<span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="s">&#39;Sphinx</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">GitHub</span><span class="nv"> </span><span class="s">Pages&#39;</span>
+<span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="s">&#39;GitHub</span><span class="nv"> </span><span class="s">Action</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">deploy</span><span class="nv"> </span><span class="s">Sphinx</span><span class="nv"> </span><span class="s">documentation</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">GitHub</span><span class="nv"> </span><span class="s">Pages&#39;</span>
+<span class="l l-Scalar l-Scalar-Plain">author</span><span class="p p-Indicator">:</span> <span class="s">&#39;Shengyu</span><span class="nv"> </span><span class="s">Zhang&#39;</span>
+<span class="l l-Scalar l-Scalar-Plain">branding</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">color</span><span class="p p-Indicator">:</span> <span class="s">&#39;green&#39;</span>
+  <span class="l l-Scalar l-Scalar-Plain">icon</span><span class="p p-Indicator">:</span> <span class="s">&#39;upload-cloud&#39;</span>
+<span class="l l-Scalar l-Scalar-Plain">inputs</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">target_branch</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="s">&#39;Git</span><span class="nv"> </span><span class="s">branch</span><span class="nv"> </span><span class="s">where</span><span class="nv"> </span><span class="s">assets</span><span class="nv"> </span><span class="s">will</span><span class="nv"> </span><span class="s">be</span><span class="nv"> </span><span class="s">deployed&#39;</span>
+    <span class="l l-Scalar l-Scalar-Plain">required</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;gh-pages&#39;</span>
+  <span class="l l-Scalar l-Scalar-Plain">repository_path</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="s">&#39;Relative</span><span class="nv"> </span><span class="s">path</span><span class="nv"> </span><span class="s">under</span><span class="nv"> </span><span class="s">$GITHUB_WORKSPACE</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">place</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">repository&#39;</span>
+    <span class="l l-Scalar l-Scalar-Plain">required</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;.&#39;</span>
+  <span class="l l-Scalar l-Scalar-Plain">documentation_path</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="s">&#39;Relative</span><span class="nv"> </span><span class="s">path</span><span class="nv"> </span><span class="s">under</span><span class="nv"> </span><span class="s">repository</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">documentation</span><span class="nv"> </span><span class="s">source</span><span class="nv"> </span><span class="s">files&#39;</span>
+    <span class="l l-Scalar l-Scalar-Plain">required</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;.&#39;</span>
+  <span class="l l-Scalar l-Scalar-Plain">install_requirements</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span> <span class="s">&#39;Install</span><span class="nv"> </span><span class="s">Sphinx</span><span class="nv"> </span><span class="s">extensions</span><span class="nv"> </span><span class="s">listed</span><span class="nv"> </span><span class="s">in</span><span class="nv"> </span><span class="s">$doc_path/requirements.txt&#39;</span>
+    <span class="l l-Scalar l-Scalar-Plain">required</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+    <span class="l l-Scalar l-Scalar-Plain">default</span><span class="p p-Indicator">:</span> <span class="s">&#39;true&#39;</span>
+
+<span class="l l-Scalar l-Scalar-Plain">runs</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">using</span><span class="p p-Indicator">:</span> <span class="s">&#39;node12&#39;</span>
+  <span class="l l-Scalar l-Scalar-Plain">main</span><span class="p p-Indicator">:</span> <span class="s">&#39;main.js&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="#">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Welcome to sphinxnotes-pages’s documentation!</a></li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
-</ul>
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="#">Documentation overview</a><ul>
-  </ul></li>
-</ul>
-</div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/index.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
       </div>
       <div class="clearer"></div>
     </div>

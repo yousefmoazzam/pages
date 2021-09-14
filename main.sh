@@ -61,6 +61,16 @@ else
 fi
 echo ::endgroup::
 
+if [ "$INPUT_CONDA_ENV" != "" ] ; then
+    echo ::group:: Activating conda environment
+    echo $CONDA
+    source $CONDA/etc/profile.d/conda.sh
+    conda activate $INPUT_CONDA_ENV
+    echo ::endgroup::
+else
+    echo No conda environment given, skipped
+fi
+
 if [ "$INPUT_INSTALL_REQUIREMENTS" = "true" ] ; then
     echo ::group:: Installing requirements
     if [ -f "$doc_dir/requirements.txt" ]; then
@@ -70,16 +80,6 @@ if [ "$INPUT_INSTALL_REQUIREMENTS" = "true" ] ; then
         echo No requirements.txt found, skipped
     fi
     echo ::endgroup::
-fi
-
-if [ "$INPUT_CONDA_ENV" != "" ] ; then
-    echo ::group:: Activating conda environment
-    echo $CONDA
-    source $CONDA/etc/profile.d/conda.sh
-    conda activate $INPUT_CONDA_ENV
-    echo ::endgroup::
-else
-    echo No conda environment given, skipped
 fi
 
 echo ::group:: Creating temp directory

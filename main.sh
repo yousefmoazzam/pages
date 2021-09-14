@@ -78,6 +78,7 @@ if [ "$INPUT_CONDA_ENV" != "" ] ; then
     echo ::endgroup::
 else
     echo No conda environment given, skipped
+fi
 
 echo ::group:: Creating temp directory
 tmp_dir=$(mktemp -d -t pages-XXXXXXXXXX)

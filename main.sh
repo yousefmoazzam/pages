@@ -74,6 +74,8 @@ fi
 
 if [ "$INPUT_CONDA_ENV" != "" ] ; then
     echo ::group:: Activating conda environment
+    echo $CONDA
+    source $CONDA/etc/profile.d/conda.sh
     conda activate $INPUT_CONDA_ENV
     echo ::endgroup::
 else

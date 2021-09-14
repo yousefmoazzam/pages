@@ -72,6 +72,13 @@ if [ "$INPUT_INSTALL_REQUIREMENTS" = "true" ] ; then
     echo ::endgroup::
 fi
 
+if [ "$INPUT_CONDA_ENV" != "" ] ; then
+    echo ::group:: Activating conda environment
+    conda activate $INPUT_CONDA_ENV
+    echo ::endgroup::
+else
+    echo No conda environment given, skipped
+
 echo ::group:: Creating temp directory
 tmp_dir=$(mktemp -d -t pages-XXXXXXXXXX)
 echo Temp directory \"$tmp_dir\" is created

@@ -26,6 +26,10 @@ inputs:
     description: 'Extras files(such as README, LICENSE) to be commited to $target_branch'
     required: false
     default: ''
+  conda_env:
+    description: 'Conda environment to activate before docs build'
+    required: false
+    default: ''
 
 runs:
   using: 'node12'
